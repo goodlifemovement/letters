@@ -2,26 +2,31 @@ import { useForm } from "react-hook-form";
 import Input from "./Input";
 import Button from "./Button";
 
-type FormValues = {
+export type InfoFormValues = {
   firstName: string;
   lastName: string;
   email: string;
   streetAddress: string;
-  city: string;
   zip: string;
 };
 
-function InfoForm() {
+function InfoForm({
+  values,
+  onNext,
+}: {
+  values: InfoFormValues;
+  onNext: (values: InfoFormValues) => void;
+}) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
-
-  const onSubmit = (data: FormValues) => console.log(data);
+  } = useForm<InfoFormValues>({
+    defaultValues: values,
+  });
 
   return (
-    <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="grid gap-4" onSubmit={handleSubmit(onNext)}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <Input
@@ -72,35 +77,21 @@ function InfoForm() {
         />
         {errors.streetAddress && <span>This field is required</span>}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <Input
-            {...register("city", { required: true })}
-            type="text"
-            placeholder="City"
-            aria-label="City"
-            className="w-full"
-          />
-          {errors.city && <span>This field is required</span>}
-        </div>
-        <div>
-          <Input
-            {...register("zip", {
-              required: true,
-              pattern: /^\d{5}(?:[-\s]\d{4})?$/,
-            })}
-            type="text"
-            placeholder="Zip"
-            aria-label="Zip"
-            className="w-full"
-          />
-          {errors.zip?.type === "required" && (
-            <span>This field is required</span>
-          )}
-          {errors.zip?.type === "pattern" && (
-            <span>Please enter a valid zip code</span>
-          )}
-        </div>
+      <div>
+        <Input
+          {...register("zip", {
+            required: true,
+            pattern: /^\d{5}(?:[-\s]\d{4})?$/,
+          })}
+          type="text"
+          placeholder="Zip"
+          aria-label="Zip"
+          className="w-full"
+        />
+        {errors.zip?.type === "required" && <span>This field is required</span>}
+        {errors.zip?.type === "pattern" && (
+          <span>Please enter a valid zip code</span>
+        )}
       </div>
 
       <Button type="submit">Start Writing</Button>

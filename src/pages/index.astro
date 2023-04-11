@@ -1,19 +1,21 @@
 ---
 import Container from "../components/Container.astro";
-import InfoForm from "../components/InfoForm";
+import LetterWizard from "../components/LetterWizard";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Send letters to Congress">
   <Container class="py-4">
     <img src="https://place.dog/500/280" class="w-full" />
-    <h1>Write letters to Congress</h1>
-    <p>
+    <h1 class="font-heading text-[#1e2254] text-4xl">
+      Write letters to Congress
+    </h1>
+    <p class="font-body text-[#1e2254] text-lg">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
       commodo consequat.
     </p>
-    <InfoForm client:load />
+    <LetterWizard client:load />
   </Container>
 </Layout>
